@@ -1,0 +1,9 @@
+# Secrets
+*.env
+*secret*
+*credentials*
+.ssh/
+
+# OS
+.DS_Store
+*.zwc

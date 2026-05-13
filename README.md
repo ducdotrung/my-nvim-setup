@@ -5,7 +5,7 @@ Personal dotfiles for WSL2 Ubuntu + Neovim + tmux + zsh (Powerlevel10k).
 ## Setup on new machine
 
 ```bash
-git clone https://github.com/<your-username>/dotfiles.git ~/dotfiles
+git clone https://github.com/ducdotrung/dotfiles.git ~/dotfiles
 cd ~/dotfiles && ./install.sh
 ```
 

@@ -1,11 +1,20 @@
 #!/usr/bin/env bash
 # ============================================================
-# your-company tmux session launcher
-# Usage: ./tmux-your-company.sh [session-name]
+# Azure multi-account tmux session launcher
+# Usage: ./tmux-az-multiy.sh [company-name]
+# Example: ./tmux-az-multiy.sh akila
 # ============================================================
 
-SESSION="${1:-your-company}"
-ENVFILE="$HOME/your-company-env/az-env.sh"
+COMPANY="${1:-company}"
+SESSION="$COMPANY"
+ENVFILE="$HOME/${COMPANY}-env/az-env.sh"
+
+# Verify the env file exists
+if [[ ! -f "$ENVFILE" ]]; then
+  echo "Error: $ENVFILE not found!"
+  echo "Usage: $0 [company-name]"
+  exit 1
+fi
 
 # Don't create if session already exists → just attach
 if tmux has-session -t "$SESSION" 2>/dev/null; then

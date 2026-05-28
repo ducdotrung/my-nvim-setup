@@ -1,19 +1,20 @@
-# dotfiles
+# my-nvim-setup
 
-Personal dotfiles for WSL2 Ubuntu + Neovim + tmux + zsh (Powerlevel10k).
+Personal dotfiles for Ubuntu + Neovim + tmux + zsh (Powerlevel10k).
 
 ## Setup on new machine
 
 ```bash
-git clone https://github.com/ducdotrung/dotfiles.git ~/dotfiles
-cd ~/dotfiles && ./install.sh
+git clone https://github.com/ducdotrung/my-nvim-setup.git ~/my-nvim-setup
+cd ~/my-nvim-setup && ./install.sh
 ```
 
 ## Structure
 
-| Path          | Description                       |
-|---------------|-----------------------------------|
-| `nvim/`       | Neovim config (lazy.nvim)         |
-| `tmux/`       | tmux + tmux-resurrect/continuum   |
-| `zsh/`        | Oh My Zsh + Powerlevel10k         |
-| `wezterm/`    | WezTerm terminal (Windows)        |
+| Path                  | Description                           |
+|-----------------------|---------------------------------------|
+| `nvim/`               | Neovim config (lazy.nvim)             |
+| `tmux/`               | tmux + tmux-resurrect/continuum       |
+| `zsh/`                | Oh My Zsh + Powerlevel10k             |
+| `wezterm/`            | WezTerm terminal                      |
+| `azure-multi-acc/`    | tmux setup for multi acc with Azure   |

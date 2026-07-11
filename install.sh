@@ -50,18 +50,26 @@ install_homebrew() {
 install_delta_linux() {
   if has delta; then info "git-delta already installed"; return; fi
   step "Installing git-delta"
-  local version="0.17.0"
   local arch; arch="$(uname -m)"
   case "$arch" in
     x86_64)          arch_tag="x86_64-unknown-linux-gnu" ;;
     aarch64|arm64)   arch_tag="aarch64-unknown-linux-gnu" ;;
     *) warn "Unknown arch $arch — skipping git-delta"; return ;;
   esac
+  local asset_url
+  asset_url="$(curl -fsSL https://api.github.com/repos/dandavison/delta/releases/latest \
+    | sed -n "s#.*\"browser_download_url\": \"\(.*delta-[^\"]*-${arch_tag}\\.tar\\.gz\)\".*#\1#p" \
+    | head -1)"
+  [[ -n "$asset_url" ]] || error "Could not find a git-delta release for $arch"
+
   local tmpdir; tmpdir="$(mktemp -d)"
-  curl -fsSL "https://github.com/dandavison/delta/releases/download/${version}/git-delta_${version}_${arch_tag}.tar.gz" \
-    | tar -xz -C "$tmpdir"
-  sudo mv "$(find "$tmpdir" -name delta -type f | head -1)" /usr/local/bin/delta
+  trap 'rm -rf "$tmpdir"' RETURN
+  curl -fsSL "$asset_url" | tar -xz -C "$tmpdir"
+  local delta_bin; delta_bin="$(find "$tmpdir" -name delta -type f -print -quit)"
+  [[ -n "$delta_bin" ]] || error "git-delta archive did not contain the delta binary"
+  sudo install -m 0755 "$delta_bin" /usr/local/bin/delta
   rm -rf "$tmpdir"
+  trap - RETURN
   info "git-delta installed"
 }
 
@@ -191,6 +199,10 @@ set_default_shell() {
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 main() {
+  if [[ $EUID -eq 0 ]]; then
+    error "Do not run this script with sudo. Run: bash install.sh (it prompts for sudo only when needed)"
+  fi
+
   echo -e "${BLUE}"
   echo "  ┌─────────────────────────────────────────┐"
   printf "  │  dotfiles setup  %-22s│\n" "[$PLATFORM]"

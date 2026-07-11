@@ -1,5 +1,7 @@
 return {
   "nvim-tree/nvim-tree.lua",
+  -- Ubuntu 24.04 ships Neovim 0.9; use nvim-tree's maintained compatibility tag.
+  tag = "compat-nvim-0.9",
   dependencies = "nvim-tree/nvim-web-devicons",
   config = function()
     local nvimtree = require("nvim-tree")
